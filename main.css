@@ -901,12 +901,20 @@ body {
   position: absolute;
   left: 18px;
   display: flex;
-  align-items: center
+  align-items: center;
+  gap: 4px
 }
 
 .back__icon {
   width: 18px;
   height: 18px
+}
+
+/* post.php 中箭头位于 a 内部（行内元素按基线对齐导致上下不齐），用 flex + gap 统一图标与文字的垂直居中和间距 */
+.back__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px
 }
 
 .post__title {

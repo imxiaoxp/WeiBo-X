@@ -9,8 +9,7 @@ $this->need('header.php'); ?>
             <?php $this->need('components/search.php'); ?>
             <div class="post__header">
                 <div class="post__back">
-                    <a class="back__link" href="<?php $this->options->siteUrl(); ?>">
-                    <?php echo getSvg('left', 'back__icon'); ?>返回</a>
+                    <a class="back__link" href="<?php $this->options->siteUrl(); ?>"><?php echo getSvg('left', 'back__icon'); ?>返回</a>
                 </div>
                 <h1 class="post__title"><?php $this->title(); ?></h1>
             </div>
