@@ -10,7 +10,7 @@
  * @version 1.0.0
  * @license GPL-3.0-only
  * @original https://github.com/xiayuanOvO/typecho-sagittarius
- * @link https://github.com/imxiaoxp/sagittarius-x
+ * @link https://github.com/imxiaoxp/WeiBo-X
  * @modified 2026-10-03
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
