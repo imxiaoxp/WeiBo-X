@@ -1000,7 +1000,7 @@ body {
 .post__images {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  gap: 4px;
+  gap: 10px;
   padding: 10px 0;
   margin-right: 80px
 }
