@@ -17,6 +17,7 @@ function themeConfig($form)
     addSelect($form, 'avatarUrl', array(
         'lty' => _t('lty'),
         'cravatar' => _t('cravatar'),
+        'weavatar' => _t('weavatar'),
         'loli' => _t('loli'),
         'gravatar' => _t('gravatar')
     ), 'lty', '头像源', '');
@@ -164,6 +165,8 @@ function getAuthorAvatar($mail, $options)
         $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
     } else if ($avatarUrl == 'cravatar') {
         $url = 'https://cravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+    } else if ($avatarUrl == 'weavatar') {
+        $url = 'https://weavatar.com/avatar/' . md5($mail) . '?s=128&r=X';
     } else {
         // lty（默认）
         $url = 'https://api.lty.fun/avatar/' . md5($mail) . '?s=128&r=X';
