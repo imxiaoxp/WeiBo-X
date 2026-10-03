@@ -1,4 +1,4 @@
-![WeiBo-X](./screenshot.png)
+![WeiBo-X](./screenshot.webp)
 
 # WeiBo-X
 
