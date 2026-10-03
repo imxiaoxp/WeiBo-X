@@ -164,9 +164,9 @@ function getAuthorAvatar($mail, $options)
     } else if ($avatarUrl == 'gravatar') {
         $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
     } else if ($avatarUrl == 'cravatar') {
-        $url = 'https://cravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+        $url = 'https://cravatar.com/avatar/' . md5($mail) . '?s=128&r=X&d=mp';
     } else if ($avatarUrl == 'weavatar') {
-        $url = 'https://weavatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+        $url = 'https://weavatar.com/avatar/' . md5($mail) . '?s=128&r=X&d=mp';
     } else {
         // lty（默认）
         $url = 'https://api.lty.fun/avatar/' . md5($mail) . '?s=128&r=X';
