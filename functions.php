@@ -984,7 +984,7 @@ function threadedComments($comments, $options)
       echo $commentClass;
       ?>">
         <div class="comment__view">
-            <img class="comment__avatar" src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, $options)); ?>"
+            <img class="comment__avatar" src="<?php echo htmlspecialchars(getAuthorAvatar($comments->mail, \Widget\Options::alloc())); ?>"
                 alt="<?php echo $author; ?>">
             <div class="comment__content">
                 <div class="comment__meta">
