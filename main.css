@@ -1000,7 +1000,8 @@ body {
 .post__images {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  gap: 10px;
+  gap: 4px;
+  padding: 10px 0;
   margin-right: 80px
 }
 
@@ -2235,4 +2236,21 @@ html.lightbox-open body {
 
 .lightbox-next {
   right: 16px
+}
+
+/* 顶部计数器（x/x，单图时隐藏） */
+.lightbox__counter {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  pointer-events: none;
+  color: rgba(255,255,255,.9);
+  font-size: 13px;
+  line-height: 18px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  background: rgba(0,0,0,.4);
+  font-variant-numeric: tabular-nums
 }

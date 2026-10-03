@@ -794,8 +794,11 @@ function initLightbox() {
     img = null,
     prevBtn = null,
     nextBtn = null,
+    counter = null,
     gallery = [],
-    index = 0;
+    index = 0,
+    touchX = 0,
+    touchY = 0;
   const ARROW = dir =>
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="' +
     (-1 === dir ? "15 18 9 12 15 6" : "9 18 15 12 9 6") + '"/></svg>';
@@ -815,7 +818,10 @@ function initLightbox() {
     nextBtn.className = "lightbox-nav lightbox-next";
     nextBtn.setAttribute("aria-label", "下一张");
     nextBtn.innerHTML = ARROW(1);
+    counter = document.createElement("div");
+    counter.className = "lightbox__counter";
     box.appendChild(img);
+    box.appendChild(counter);
     box.appendChild(prevBtn);
     box.appendChild(nextBtn);
     document.body.appendChild(box);
@@ -826,6 +832,8 @@ function initLightbox() {
     const single = gallery.length < 2;
     prevBtn.hidden = single;
     nextBtn.hidden = single;
+    counter.hidden = single;
+    if (!single) counter.textContent = index + 1 + "/" + gallery.length;
     prevBtn.disabled = 0 === index;
     nextBtn.disabled = index === gallery.length - 1;
   };
@@ -870,6 +878,21 @@ function initLightbox() {
     if ("Escape" === e.key) close();
     else if ("ArrowLeft" === e.key) step(-1);
     else if ("ArrowRight" === e.key) step(1);
+  });
+  // 移动端：左右滑动切换上一张/下一张
+  box.addEventListener("touchstart", e => {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  box.addEventListener("touchend", e => {
+    if (!box.classList.contains("show") || gallery.length < 2) return;
+    const dx = e.changedTouches[0].clientX - touchX,
+      dy = e.changedTouches[0].clientY - touchY;
+    // 水平位移超过 40px 且以水平为主时判定为滑动；preventDefault 阻止合成点击误关灯箱
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      e.preventDefault();
+      step(dx < 0 ? 1 : -1);
+    }
   });
 }
 
