@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Sagittarius Theme 修改版：Sagittarius - X
+ * WeiBo-X（Sagittarius Theme 修改版）
  * 基于 夏源 的 Sagittarius Theme 修改。
  *
- * @package Sagittarius - X
+ * @package WeiBo-X
  * @author 夏源 <https://blog.xiayuanovo.cn>
  * @author Xiao <https://be.de.cool> (修改者)
  * @version 1.0.0
