@@ -72,6 +72,10 @@
 3. 登录 Typecho 后台 → 控制台 → 外观
 4. 启用「WeiBo-X（Sagittarius Theme 修改版）」主题
 
+## 推荐插件
+
+- **[VideoCollector](https://github.com/imxiaoxp/VideoCollector)**：视频采集插件——在 Typecho 后台从苹果 CMS 标准采集 API 搜索影视资源，一键生成 `[play]` 短代码嵌入多分集视频播放器（ArtPlayer / Iframe 双播放模式）
+
 ## 许可证
 
 本项目基于 [GNU General Public License v3.0](LICENSE) 开源。
