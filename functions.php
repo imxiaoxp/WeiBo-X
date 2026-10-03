@@ -15,10 +15,11 @@ function themeConfig($form)
 
     // 头像源
     addSelect($form, 'avatarUrl', array(
-        'v2ex' => _t('v2ex'),
+        'lty' => _t('lty'),
+        'cravatar' => _t('cravatar'),
         'loli' => _t('loli'),
         'gravatar' => _t('gravatar')
-    ), 'v2ex', '头像源', '');
+    ), 'lty', '头像源', '');
 
     // 背景模式
     addSelect($form, 'bgMode', array(
@@ -161,8 +162,11 @@ function getAuthorAvatar($mail, $options)
         $url = 'https://gravatar.loli.net/avatar/' . md5($mail) . '?s=128&r=X';
     } else if ($avatarUrl == 'gravatar') {
         $url = 'https://gravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
+    } else if ($avatarUrl == 'cravatar') {
+        $url = 'https://cravatar.com/avatar/' . md5($mail) . '?s=128&r=X';
     } else {
-        $url = 'https://api.lty.fun/avatar/' .md5($mail) . '?s=128&r=X';
+        // lty（默认）
+        $url = 'https://api.lty.fun/avatar/' . md5($mail) . '?s=128&r=X';
     }
     $cache[$mail] = $url;
     return $url;
