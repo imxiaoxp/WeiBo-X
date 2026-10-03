@@ -29,7 +29,7 @@
     <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
     <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script>
     <script src="https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
-    <script src="<?php $this->options->themeUrl('app.js'); ?>?v=<?php echo filemtime(__DIR__ . '/app.js'); ?>"></script>
+    <script src="<?php $this->options->themeUrl('app.min.js'); ?>?v=<?php echo filemtime(__DIR__ . '/app.min.js'); ?>"></script>
     <?php $this->header(); ?>
 </head>
 <?php $bgModeClass = ($this->options->bgMode == 'image') ? 'bg-image-mode' : 'bg-color-mode'; ?>
