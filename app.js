@@ -797,8 +797,11 @@ function initLightbox() {
     counter = null,
     gallery = [],
     index = 0,
-    touchX = 0,
-    touchY = 0;
+    downX = 0,
+    downY = 0,
+    tracking = false,
+    swiped = false,
+    sliding = false;
   const ARROW = dir =>
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="' +
     (-1 === dir ? "15 18 9 12 15 6" : "9 18 15 12 9 6") + '"/></svg>';
@@ -825,6 +828,45 @@ function initLightbox() {
     box.appendChild(prevBtn);
     box.appendChild(nextBtn);
     document.body.appendChild(box);
+    // 滑动切换：Pointer 事件统一处理触摸与鼠标拖拽；.lightbox 上的 touch-action:pan-y
+    // 让浏览器不接管水平滑动。拖动时图片跟手，松手后按阈值滑出/回弹
+    box.addEventListener("pointerdown", e => {
+      if (sliding || gallery.length < 2) return;
+      tracking = true;
+      swiped = false;
+      downX = e.clientX;
+      downY = e.clientY;
+    });
+    box.addEventListener("pointermove", e => {
+      if (!tracking || sliding) return;
+      const dx = e.clientX - downX,
+        dy = e.clientY - downY;
+      if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 60) {
+        tracking = false; // 垂直手势，交给浏览器处理
+        return;
+      }
+      // 首/末张越界方向给阻力，模拟橡皮筋
+      const atEdge = (0 === index && dx > 0) || (index === gallery.length - 1 && dx < 0);
+      const ox = atEdge ? dx * 0.3 : dx;
+      img.style.transition = "none";
+      img.style.transform = "translateX(" + ox + "px)";
+    });
+    window.addEventListener("pointerup", e => {
+      if (!tracking) return;
+      tracking = false;
+      const dx = e.clientX - downX;
+      const dir = dx < 0 ? 1 : -1;
+      const atEdge = (0 === index && -1 === dir) || (index === gallery.length - 1 && 1 === dir);
+      if (Math.abs(dx) > 60 && !atEdge) {
+        swiped = true;
+        slide(dir);
+      } else {
+        // 未达阈值或在边界：回弹归位
+        img.style.transition = "transform .25s ease";
+        img.style.transform = "translateX(0)";
+      }
+    });
+    box.addEventListener("dragstart", e => e.preventDefault());
   };
   const render = () => {
     const t = gallery[index];
@@ -837,12 +879,40 @@ function initLightbox() {
     prevBtn.disabled = 0 === index;
     nextBtn.disabled = index === gallery.length - 1;
   };
+  // 清除内联样式，恢复 CSS 的打开缩放动画
+  const resetImg = () => {
+    img.style.transition = "";
+    img.style.transform = "";
+  };
+  // 切换动画：当前图滑出 → 换图 → 新图从另一侧滑入，模拟真实滑动
+  const slide = dir => {
+    if (sliding) return;
+    const next = index + dir;
+    if (next < 0 || next >= gallery.length) return;
+    sliding = true;
+    const w = (box.clientWidth || 400) / 2;
+    const d = 1 === dir ? -1 : 1; // 下一张向左滑出
+    img.style.transition = "transform .18s ease-in";
+    img.style.transform = "translateX(" + d * w + "px)";
+    setTimeout(() => {
+      index = next;
+      render();
+      img.style.transition = "none";
+      img.style.transform = "translateX(" + -d * w + "px)";
+      void img.offsetWidth;
+      img.style.transition = "transform .22s ease-out";
+      img.style.transform = "translateX(0)";
+      sliding = false;
+    }, 170);
+  };
   const open = target => {
     ensure();
     // 打开时重新收集；首页卡片内只取当前文章的图片，文章页取全文图片
     const root = target.closest(".post__item") || document;
     gallery = Array.from(root.querySelectorAll(SEL));
     index = Math.max(0, gallery.indexOf(target));
+    resetImg();
+    sliding = false;
     render();
     box.classList.add("show");
     document.documentElement.classList.add("lightbox-open");
@@ -851,18 +921,13 @@ function initLightbox() {
     if (!box) return;
     box.classList.remove("show");
     document.documentElement.classList.remove("lightbox-open");
-  };
-  const step = dir => {
-    const next = index + dir;
-    if (next < 0 || next >= gallery.length) return;
-    index = next;
-    render();
+    resetImg();
   };
   // 事件委托：对 AJAX 追加加载的卡片/内容同样生效
   document.addEventListener("click", e => {
     const nav = e.target.closest(".lightbox-nav");
     if (nav) {
-      step(nav.classList.contains("lightbox-prev") ? -1 : 1);
+      slide(nav.classList.contains("lightbox-prev") ? -1 : 1);
       return;
     }
     const t = e.target.closest(SEL);
@@ -871,28 +936,16 @@ function initLightbox() {
       open(t);
       return;
     }
-    if (e.target.closest(".lightbox")) close();
+    if (e.target.closest(".lightbox")) {
+      if (swiped) swiped = false; // 滑动结束后的合成点击，不关闭灯箱
+      else close();
+    }
   });
   document.addEventListener("keydown", e => {
     if (!box || !box.classList.contains("show")) return;
     if ("Escape" === e.key) close();
-    else if ("ArrowLeft" === e.key) step(-1);
-    else if ("ArrowRight" === e.key) step(1);
-  });
-  // 移动端：左右滑动切换上一张/下一张
-  box.addEventListener("touchstart", e => {
-    touchX = e.touches[0].clientX;
-    touchY = e.touches[0].clientY;
-  }, { passive: true });
-  box.addEventListener("touchend", e => {
-    if (!box.classList.contains("show") || gallery.length < 2) return;
-    const dx = e.changedTouches[0].clientX - touchX,
-      dy = e.changedTouches[0].clientY - touchY;
-    // 水平位移超过 40px 且以水平为主时判定为滑动；preventDefault 阻止合成点击误关灯箱
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-      e.preventDefault();
-      step(dx < 0 ? 1 : -1);
-    }
+    else if ("ArrowLeft" === e.key) slide(-1);
+    else if ("ArrowRight" === e.key) slide(1);
   });
 }
 

@@ -2162,7 +2162,8 @@ article .like-btn__icon {
   opacity: 0;
   visibility: hidden;
   transition: opacity .25s ease, visibility .25s ease;
-  cursor: zoom-out
+  cursor: zoom-out;
+  touch-action: pan-y
 }
 
 .lightbox.show {

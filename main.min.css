@@ -186,7 +186,7 @@ article .like-btn__icon{width:18px;height:18px}
 [data-theme="dark"] .guest-modal__box{background:#262626;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.6)}
 
 /* ===== 图片灯箱（文章内容图与卡片网格图点击放大） ===== */
-.lightbox{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;cursor:zoom-out}
+.lightbox{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;cursor:zoom-out;touch-action:pan-y}
 .lightbox.show{opacity:1;visibility:visible}
 .lightbox img{width:auto;height:auto;max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:scale(.96);transition:transform .25s ease}
 .lightbox.show img{transform:scale(1)}
