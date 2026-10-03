@@ -184,3 +184,17 @@ article .like-btn__icon{width:18px;height:18px}
 /* 访客信息模态框（暗色模式增强对比：加深遮罩、提亮面板、加边框与更深阴影） */
 [data-theme="dark"] .guest-modal__mask{background:rgba(0,0,0,.7)}
 [data-theme="dark"] .guest-modal__box{background:#262626;border:1px solid rgba(255,255,255,.08);box-shadow:0 8px 32px rgba(0,0,0,.6)}
+
+/* ===== 图片灯箱（文章内容图与卡片网格图点击放大） ===== */
+.lightbox{position:fixed;inset:0;z-index:300;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s ease;cursor:zoom-out}
+.lightbox.show{opacity:1;visibility:visible}
+.lightbox img{width:auto;height:auto;max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,.5);transform:scale(.96);transition:transform .25s ease}
+.lightbox.show img{transform:scale(1)}
+html.lightbox-open,html.lightbox-open body{overflow:hidden}
+.post__content img,.post__image{cursor:zoom-in}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;z-index:1;transition:background-color .2s ease,opacity .2s ease}
+.lightbox-nav:hover{background:rgba(255,255,255,.25)}
+.lightbox-nav[disabled]{opacity:.25;cursor:default}
+.lightbox-nav svg{width:22px;height:22px}
+.lightbox-prev{left:16px}
+.lightbox-next{right:16px}

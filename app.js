@@ -788,7 +788,92 @@ function initOwO() {
   });
 }
 
+function initLightbox() {
+  const SEL = ".post__content img, .post__image";
+  let box = null,
+    img = null,
+    prevBtn = null,
+    nextBtn = null,
+    gallery = [],
+    index = 0;
+  const ARROW = dir =>
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="' +
+    (-1 === dir ? "15 18 9 12 15 6" : "9 18 15 12 9 6") + '"/></svg>';
+  const ensure = () => {
+    if (box) return;
+    box = document.createElement("div");
+    box.className = "lightbox";
+    img = document.createElement("img");
+    img.alt = "";
+    prevBtn = document.createElement("button");
+    prevBtn.type = "button";
+    prevBtn.className = "lightbox-nav lightbox-prev";
+    prevBtn.setAttribute("aria-label", "上一张");
+    prevBtn.innerHTML = ARROW(-1);
+    nextBtn = document.createElement("button");
+    nextBtn.type = "button";
+    nextBtn.className = "lightbox-nav lightbox-next";
+    nextBtn.setAttribute("aria-label", "下一张");
+    nextBtn.innerHTML = ARROW(1);
+    box.appendChild(img);
+    box.appendChild(prevBtn);
+    box.appendChild(nextBtn);
+    document.body.appendChild(box);
+  };
+  const render = () => {
+    const t = gallery[index];
+    img.src = t ? t.currentSrc || t.src : "";
+    const single = gallery.length < 2;
+    prevBtn.hidden = single;
+    nextBtn.hidden = single;
+    prevBtn.disabled = 0 === index;
+    nextBtn.disabled = index === gallery.length - 1;
+  };
+  const open = target => {
+    ensure();
+    // 打开时重新收集；首页卡片内只取当前文章的图片，文章页取全文图片
+    const root = target.closest(".post__item") || document;
+    gallery = Array.from(root.querySelectorAll(SEL));
+    index = Math.max(0, gallery.indexOf(target));
+    render();
+    box.classList.add("show");
+    document.documentElement.classList.add("lightbox-open");
+  };
+  const close = () => {
+    if (!box) return;
+    box.classList.remove("show");
+    document.documentElement.classList.remove("lightbox-open");
+  };
+  const step = dir => {
+    const next = index + dir;
+    if (next < 0 || next >= gallery.length) return;
+    index = next;
+    render();
+  };
+  // 事件委托：对 AJAX 追加加载的卡片/内容同样生效
+  document.addEventListener("click", e => {
+    const nav = e.target.closest(".lightbox-nav");
+    if (nav) {
+      step(nav.classList.contains("lightbox-prev") ? -1 : 1);
+      return;
+    }
+    const t = e.target.closest(SEL);
+    if (t) {
+      e.preventDefault();
+      open(t);
+      return;
+    }
+    if (e.target.closest(".lightbox")) close();
+  });
+  document.addEventListener("keydown", e => {
+    if (!box || !box.classList.contains("show")) return;
+    if ("Escape" === e.key) close();
+    else if ("ArrowLeft" === e.key) step(-1);
+    else if ("ArrowRight" === e.key) step(1);
+  });
+}
+
 function init() {
-  formatPostDate(), initTextareaHeight(), initWaterfall(), initCommentEvents(), initThemeToggle(), initBackTop(), initCounter(), initTabScroll(), initExternalLinks(), initLikeButtons(), initInlineComments(), initOwO()
+  formatPostDate(), initTextareaHeight(), initWaterfall(), initCommentEvents(), initThemeToggle(), initBackTop(), initCounter(), initTabScroll(), initExternalLinks(), initLikeButtons(), initInlineComments(), initOwO(), initLightbox()
 }
 document.addEventListener("DOMContentLoaded", init);
