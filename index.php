@@ -1,13 +1,17 @@
 <?php
 
 /**
- * 这是一款 Typecho 主题，模仿微博风格。
+ * Sagittarius Theme 修改版：Sagittarius - X
+ * 基于 夏源 的 Sagittarius Theme 修改。
  *
- * @package Sagittarius Theme
+ * @package Sagittarius - X
  * @author 夏源 <https://blog.xiayuanovo.cn>
- * @modifier Xiao <https://be.de.cool>
+ * @author Xiao <https://be.de.cool> (修改者)
  * @version 1.0.0
+ * @license GPL-3.0-only
+ * @original https://github.com/xiayuanOvO/typecho-sagittarius
  * @link https://github.com/imxiaoxp/typecho-sagittarius
+ * @modified 2026-10-03
  */
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 $this->need('header.php');

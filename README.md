@@ -1,6 +1,6 @@
-![Sagittarius Theme](./screenshot.png)
+![Sagittarius - X](./screenshot.png)
 
-# Sagittarius Theme
+# Sagittarius - X
 
 一款仿微博风格的 Typecho 主题，简洁清爽，支持丰富的自定义配置。
 
@@ -8,7 +8,7 @@
 
 主题设计致力于提供干净简洁的阅读体验，同时保持较高的可定制性。
 
-本主题基于 [typecho-sagittarius](https://github.com/xiayuanOvO/typecho-sagittarius)（原作者：[夏源](https://blog.xiayuanovo.cn)）修改而来，当前版本 **v1.0.0** 由 [Xiao](https://be.de.cool) 维护，在原版基础上做了大量功能增强与重构，详见下方「与原版的主要差异」。
+本主题 **Sagittarius - X** 基于 [typecho-sagittarius](https://github.com/xiayuanOvO/typecho-sagittarius)（原作者：[夏源](https://blog.xiayuanovo.cn)）修改而来，当前版本 **v1.0.0** 由 [Xiao](https://be.de.cool) 维护，在原版基础上做了大量功能增强与重构，详见下方「与原版的主要差异」。
 
 
 ## 特性
@@ -68,7 +68,7 @@
 1. 下载主题压缩包或克隆仓库
 2. 解压到 `usr/themes/` 目录
 3. 登录 Typecho 后台 → 控制台 → 外观
-4. 启用「Sagittarius」主题
+4. 启用「Sagittarius Theme 修改版：Sagittarius - X」主题
 
 ## 许可证
 

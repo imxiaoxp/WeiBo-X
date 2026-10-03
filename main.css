@@ -2129,3 +2129,14 @@ article .like-btn__icon {
   background: var(--primary-color);
   color: var(--color-white)
 }
+
+/* 访客信息模态框（暗色模式增强对比：加深遮罩、提亮面板、加边框与更深阴影） */
+[data-theme="dark"] .guest-modal__mask {
+  background: rgba(0,0,0,.7)
+}
+
+[data-theme="dark"] .guest-modal__box {
+  background: #262626;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,.6)
+}
