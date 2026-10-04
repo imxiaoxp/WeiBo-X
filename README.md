@@ -10,6 +10,8 @@
 
 本主题 **WeiBo-X** 基于 [typecho-sagittarius](https://github.com/xiayuanOvO/typecho-sagittarius)（原作者：[夏源](https://blog.xiayuanovo.cn)）修改而来，当前版本 **v1.0.0** 由 [Xiao](https://be.de.cool) 维护，在原版基础上做了大量功能增强与重构，详见下方「与原版的主要差异」。
 
+为避免与原版 typecho-sagittarius 的后续更新相混淆，本主题更名为 **WeiBo-X**，独立维护与发布。
+
 
 ## 特性
 
@@ -74,7 +76,8 @@
 
 ## 推荐插件
 
-- **[VideoCollector](https://github.com/imxiaoxp/VideoCollector)**：视频采集插件——在 Typecho 后台从苹果 CMS 标准采集 API 搜索影视资源，一键生成 `[play]` 短代码嵌入多分集视频播放器（ArtPlayer / Iframe 双播放模式）
+- **[VideoCollector](https://github.com/imxiaoxp/VideoCollector)**：视频采集插件——在 Typecho 后台从苹果 CMS 标准采集 API 搜索影视资源，一键生成 `[play]` 短代码嵌入多分集视频播放器（ArtPlayer / Iframe 双播放模式），即使不使用采集功能，也可以用短代码插入视频。
+
 
 ## 许可证
 
