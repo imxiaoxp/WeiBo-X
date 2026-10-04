@@ -2255,3 +2255,115 @@ html.lightbox-open body {
   background: rgba(0,0,0,.4);
   font-variant-numeric: tabular-nums
 }
+
+/* ===== APlayer 音乐播放器（布局间距适配主题卡片） ===== */
+/* 主题 CSS 先于插件 APlayer.min.css 加载，同权重会被覆盖，故加 .post__content 提升特异性；同时天然排除 fixed/mini 模式 */
+.post__content .aplayer {
+  margin: 10px 5px 20px 0
+}
+
+/* ===== APlayer 音乐播放器（暗色配色跟随 html[data-theme="dark"]） ===== */
+[data-theme="dark"] .aplayer {
+  background: var(--color-white);
+  /* 暗色下插件默认的黑色阴影不可见，改用亮色描边环 + 深投影增强层次（描边用 box-shadow 避免 border 引起布局位移） */
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 16px rgba(0,0,0,.5)
+}
+
+[data-theme="dark"] .aplayer.aplayer-withlist .aplayer-info {
+  border-bottom-color: var(--border-color)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-music .aplayer-author {
+  color: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar {
+  background: rgba(255,255,255,.15)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded {
+  background: rgba(255,255,255,.25)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time {
+  color: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
+  fill: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon:hover path {
+  fill: #fff
+}
+
+[data-theme="dark"] .aplayer .aplayer-info .aplayer-controller .aplayer-volume-wrap .aplayer-volume-bar {
+  background: rgba(255,255,255,.25)
+}
+
+[data-theme="dark"] .aplayer .aplayer-lrc:before {
+  background: linear-gradient(180deg, var(--color-white) 0, rgba(30,30,30,0))
+}
+
+[data-theme="dark"] .aplayer .aplayer-lrc:after {
+  background: linear-gradient(180deg, rgba(30,30,30,0) 0, rgba(30,30,30,.8))
+}
+
+[data-theme="dark"] .aplayer .aplayer-lrc p {
+  color: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol li {
+  border-top-color: var(--border-color)
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol li:hover {
+  background: #2a2a2a
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol li.aplayer-list-light {
+  background: #2c2c2c
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb {
+  background-color: #333
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol::-webkit-scrollbar-thumb:hover {
+  background-color: #444
+}
+
+[data-theme="dark"] .aplayer .aplayer-list ol li .aplayer-list-index,
+[data-theme="dark"] .aplayer .aplayer-list ol li .aplayer-list-author {
+  color: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-notice {
+  background-color: #2a2a2a;
+  color: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-miniswitcher {
+  background: #2a2a2a
+}
+
+[data-theme="dark"] .aplayer .aplayer-miniswitcher .aplayer-icon path {
+  fill: var(--color-gray-1)
+}
+
+[data-theme="dark"] .aplayer .aplayer-miniswitcher .aplayer-icon:hover path {
+  fill: #fff
+}
+
+/* fixed/mini 悬浮模式（用户在 [Meting] 中启用时） */
+[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-body {
+  background: var(--color-white)
+}
+
+[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-list {
+  border-color: var(--border-color)
+}
+
+[data-theme="dark"] .aplayer.aplayer-fixed .aplayer-lrc {
+  text-shadow: -1px -1px 0 var(--color-white)
+}

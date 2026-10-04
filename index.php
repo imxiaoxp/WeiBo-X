@@ -50,6 +50,7 @@ $this->need('header.php');
                                 <?php echo getPostExcerpt($this->content); ?>
                                 </a>
                                 <?php echo getPostPlayerHtml($this->content); ?>
+                                <?php echo getAplayerHtml($this->content); ?>
                                 <?php
                                 // 最多显示 9 张（3x3 九宫格），10 张以上截断；无图不渲染容器
                                 $images = array_slice(getAllImages(content: $this->content), 0, 9);

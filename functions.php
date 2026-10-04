@@ -756,17 +756,19 @@ function renderCounterBar($position = 'side')
         . '</div>';
 }
 /**
- * 从已渲染的文章内容中提取第一个视频播放器（VideoCollector）HTML 块
+ * 从已渲染的文章内容中提取第一个指定 div 容器的完整 HTML 块
  *
- * 内容经过插件链后 [play] 短代码已转换为 .play-container 播放器 HTML，
- * 按 div 开闭标签配对扫描，得到结构完整的第一个容器块。
+ * 按 div 开闭标签配对扫描，得到结构完整的第一个容器块
+ * （getPlayerHtml / getAplayerHtml 共用实现，均依赖返回与原文
+ * 完全一致的字符串供摘要清理使用）。
  *
  * @param string $content 已渲染的文章内容
- * @return string 播放器 HTML，不存在时返回空字符串
+ * @param string $marker 容器开头的唯一标识
+ * @return string 容器 HTML，不存在时返回空字符串
  */
-function getPlayerHtml($content)
+function extractDivBlock($content, $marker)
 {
-    $pos = strpos($content, '<div class="play-container"');
+    $pos = strpos($content, $marker);
     if ($pos === false) {
         return '';
     }
@@ -792,6 +794,34 @@ function getPlayerHtml($content)
         }
     }
     return '';
+}
+
+/**
+ * 从已渲染的文章内容中提取第一个视频播放器（VideoCollector）HTML 块
+ *
+ * 内容经过插件链后 [play] 短代码已转换为 .play-container 播放器 HTML，
+ * 按 div 开闭标签配对扫描，得到结构完整的第一个容器块。
+ *
+ * @param string $content 已渲染的文章内容
+ * @return string 播放器 HTML，不存在时返回空字符串
+ */
+function getPlayerHtml($content)
+{
+    return extractDivBlock($content, '<div class="play-container"');
+}
+
+/**
+ * 从已渲染的文章内容中提取第一个音乐播放器（APlayer/Meting）HTML 块
+ *
+ * 内容经过插件链后 [Meting] 短代码已转换为 .aplayer 播放器 div
+ * （data-* 参数由插件前端 Meting.min.js 初始化），供首页卡片直接展示。
+ *
+ * @param string $content 已渲染的文章内容
+ * @return string 播放器 HTML，不存在时返回空字符串
+ */
+function getAplayerHtml($content)
+{
+    return extractDivBlock($content, '<div class="aplayer"');
 }
 
 /**

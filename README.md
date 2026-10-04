@@ -77,6 +77,7 @@
 ## 推荐插件
 
 - **[VideoCollector](https://github.com/imxiaoxp/VideoCollector)**：视频采集插件——在 Typecho 后台从苹果 CMS 标准采集 API 搜索影视资源，一键生成 `[play]` 短代码嵌入多分集视频播放器（ArtPlayer / Iframe 双播放模式），即使不使用采集功能，也可以用短代码插入视频。
+- **[APlayer-Typecho](https://github.com/MoePlayer/APlayer-Typecho)**：音乐播放插件——通过编辑器音乐按钮或 `[Meting]` 短代码插入网易云 / QQ 音乐等平台的单曲、专辑、歌单，或自定义歌曲（下载后需将插件文件夹改名为 `Meting`）。主题已适配：文章插入音乐后，首页卡片直接展示 APlayer 播放器，并完整支持主题暗色模式。
 
 
 ## 许可证

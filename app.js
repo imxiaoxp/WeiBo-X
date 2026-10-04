@@ -58,7 +58,7 @@ function initWaterfall() {
           i = r.querySelectorAll(".post__list .post__item");
         if (i.length > 0) {
           const t = document.createDocumentFragment();
-          i.forEach(e => t.appendChild(e.cloneNode(!0))), e.appendChild(t), formatPostDate(e), "function" == typeof initVideoCollectors && initVideoCollectors()
+          i.forEach(e => t.appendChild(e.cloneNode(!0))), e.appendChild(t), formatPostDate(e), "function" == typeof initVideoCollectors && initVideoCollectors(), Array.from(i).some(e => e.querySelector(".aplayer")) && "function" == typeof loadMeting && loadMeting()
         }
         const o = r.querySelector("#load-indicator");
         o && o.querySelector("a.next") ? t.innerHTML = o.innerHTML : (t.innerHTML = '<span class="load-indicator__text"></span>', a.disconnect())
