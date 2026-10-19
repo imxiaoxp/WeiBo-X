@@ -58,7 +58,7 @@ function initWaterfall() {
           i = r.querySelectorAll(".post__list .post__item");
         if (i.length > 0) {
           const t = document.createDocumentFragment();
-          i.forEach(e => t.appendChild(e.cloneNode(!0))), e.appendChild(t), formatPostDate(e), "function" == typeof initVideoCollectors && initVideoCollectors(), Array.from(i).some(e => e.querySelector(".aplayer")) && "function" == typeof loadMeting && loadMeting()
+          i.forEach(e => t.appendChild(e.cloneNode(!0))), e.appendChild(t), formatPostDate(e), initCodeLineNumbers(e), "function" == typeof initVideoCollectors && initVideoCollectors(), Array.from(i).some(e => e.querySelector(".aplayer")) && "function" == typeof loadMeting && loadMeting()
         }
         const o = r.querySelector("#load-indicator");
         o && o.querySelector("a.next") ? t.innerHTML = o.innerHTML : (t.innerHTML = '<span class="load-indicator__text"></span>', a.disconnect())
@@ -949,7 +949,19 @@ function initLightbox() {
   });
 }
 
+function initCodeLineNumbers(root) {
+  if (!window.Prism) return;
+  (root || document).querySelectorAll(".post__content pre > code").forEach(code => {
+    const pre = code.parentElement;
+    if (!pre || pre.classList.contains("line-numbers")) return;
+    pre.classList.add("line-numbers");
+    // line-numbers 插件挂在高亮 complete 钩子上，重高亮一次才会生成行号列；
+    // 未标注语言的块走纯文本分支，内容不变、仅出行号
+    if (!pre.querySelector(".line-numbers-rows")) Prism.highlightElement(code);
+  });
+}
+
 function init() {
-  formatPostDate(), initTextareaHeight(), initWaterfall(), initCommentEvents(), initThemeToggle(), initBackTop(), initCounter(), initTabScroll(), initExternalLinks(), initLikeButtons(), initInlineComments(), initOwO(), initLightbox()
+  formatPostDate(), initTextareaHeight(), initWaterfall(), initCommentEvents(), initThemeToggle(), initBackTop(), initCounter(), initTabScroll(), initExternalLinks(), initLikeButtons(), initInlineComments(), initOwO(), initLightbox(), initCodeLineNumbers()
 }
 document.addEventListener("DOMContentLoaded", init);

@@ -19,7 +19,7 @@ code[class*=language-], pre[class*=language-] {
   color: #c3cee3;
   background: var(--code-block-bg);
   font-family: Roboto Mono,monospace;
-  font-size: 1em;
+  font-size: 13px;
   line-height: 1.5em;
   -moz-tab-size: 4;
   -o-tab-size: 4;
@@ -47,7 +47,13 @@ code[class*=language-] ::selection, code[class*=language-]::selection, pre[class
 pre[class*=language-] {
   position: relative;
   padding-top: 35px;
-  box-shadow: 0 10px 25px rgba(0,0,0,.3)
+  /* 双层阴影：贴底小阴影 + 正向 spread 扩展 48px 大模糊，阴影本体大于代码块，左右两侧同步虚化 */
+  box-shadow: 0 2px 6px rgba(0,0,0,.05), 0 14px 48px 6px rgba(0,0,0,.14)
+}
+
+/* 暗色下纯黑阴影不可见，改用亮色描边环 + 深投影增强层次（与 APlayer 暗色处理一致） */
+[data-theme="dark"] pre[class*=language-] {
+  box-shadow: 0 0 0 1px rgba(255,255,255,.06), 0 4px 16px rgba(0,0,0,.5)
 }
 
 .language-css>code, .language-sass>code, .language-scss>code {
@@ -265,9 +271,16 @@ pre[class*=language-].line-numbers {
   padding-left: 0!important
 }
 
+pre[class*=language-].line-numbers>code {
+  padding-left: 62px!important
+}
+
 .line-numbers-rows {
   left: 15px!important;
   top: 5px!important;
+  width: 32px!important;
+  padding-right: 8px!important;
+  text-align: right!important;
   border-right: 1px solid rgba(255,255,255,.1)!important
 }
 
@@ -892,9 +905,14 @@ body {
   color: var(--color-gray-1)
 }
 
+/* overflow:hidden 会把代码块 box-shadow 的左右扩散裁出硬边，改用 flow-root：
+   同样形成 BFC（包含浮动与外边距塌陷）但不产生裁剪；
+   min-width:0 必须显式补回——flex 项默认 min-width:auto，长代码行会把卡片撑破
+   （此前 overflow:hidden 隐式提供了收缩许可） */
 .post__main {
   width: 100%;
-  overflow: hidden
+  min-width: 0;
+  display: flow-root
 }
 
 .post__back {
@@ -926,7 +944,7 @@ body {
 .post__content {
   padding-top: 10px;
   color: var(--color-text-1);
-  font-size: 15px;
+  font-size: 14px;
   line-height: 24px;
   overflow-wrap: break-word;
   word-break: break-word;
@@ -940,6 +958,13 @@ body {
   overflow-x: auto;
   box-sizing: border-box;
   min-width: 100%
+}
+
+/* 外层不再裁剪后，宽 table 会撑破卡片，改为块级横向滚动兜底 */
+.post__content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto
 }
 
 .post__content>code {
