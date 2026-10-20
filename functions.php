@@ -561,6 +561,23 @@ function counterBeijingDate($offsetDays = 0)
 }
 
 /**
+ * 当前站点数据库是否为 SQLite（Pdo_Sqlite 适配器）
+ *
+ * getAdapterName() 返回原始配置值（Mysqli / Pdo_Mysql / Pdo_Sqlite / Pdo_Pgsql），
+ * 用子串匹配避免对具体拼写方式的依赖。
+ *
+ * @return bool
+ */
+function counterIsSqlite()
+{
+    try {
+        return stripos(Typecho_Db::get()->getAdapterName(), 'sqlite') !== false;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+/**
  * 执行一次访问记录与统计查询
  *
  * @return void
@@ -592,8 +609,10 @@ function counterDoVisit()
     $now = time();
 
     // 唯一键去重：同访客同日仅插入一次；rowCount>0 表示今天首次来访
+    // 去重插入依赖数据库的"冲突忽略"语法：MySQL 为 INSERT IGNORE，SQLite 为 INSERT OR IGNORE
+    $insertIgnore = counterIsSqlite() ? 'INSERT OR IGNORE INTO' : 'INSERT IGNORE INTO';
     $inserted = $db->query(
-        "INSERT IGNORE INTO {$visitsTable} (`site`, `date`, `visitor_hash`, `created_at`)
+        "{$insertIgnore} {$visitsTable} (`site`, `date`, `visitor_hash`, `created_at`)
          VALUES ('{$site}', '{$today}', '{$visitorHash}', {$now})",
         Typecho_Db::WRITE,
         Typecho_Db::UPDATE
@@ -689,7 +708,10 @@ function counterOutputStatsJson()
 }
 
 /**
- * 创建访问统计所需数据表（MySQL）
+ * 创建访问统计所需数据表（MySQL / SQLite）
+ *
+ * 两端差异：SQLite 不支持 AUTO_INCREMENT / UNIQUE KEY 名 / ENGINE 子句，
+ * 自增主键用 INTEGER PRIMARY KEY AUTOINCREMENT；其余语句（含反引号标识符）两端通用。
  *
  * @return void
  * @throws Exception
@@ -698,6 +720,24 @@ function counterCreateTables()
 {
     $db = Typecho_Db::get();
     $prefix = $db->getPrefix();
+
+    if (counterIsSqlite()) {
+        $db->query("CREATE TABLE IF NOT EXISTS `{$prefix}counter_visits` (
+            vid INTEGER PRIMARY KEY AUTOINCREMENT,
+            site VARCHAR(64) NOT NULL DEFAULT '',
+            date VARCHAR(10) NOT NULL DEFAULT '',
+            visitor_hash VARCHAR(16) NOT NULL DEFAULT '',
+            created_at INTEGER NOT NULL DEFAULT 0,
+            UNIQUE (site, date, visitor_hash)
+        )");
+
+        $db->query("CREATE TABLE IF NOT EXISTS `{$prefix}counter_stats` (
+            site VARCHAR(64) PRIMARY KEY,
+            total INTEGER NOT NULL DEFAULT 0,
+            updated_at INTEGER NOT NULL DEFAULT 0
+        )");
+        return;
+    }
 
     $db->query("CREATE TABLE IF NOT EXISTS `{$prefix}counter_visits` (
         `vid` INT UNSIGNED NOT NULL AUTO_INCREMENT,
